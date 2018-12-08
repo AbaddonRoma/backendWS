@@ -66,7 +66,7 @@ router.get('/getImages', (req, res, next) => {
         })
 });
 // checkAuth  after /route
-router.post('/addImage', upload.single('picture'), (req, res, next) => {
+router.post('/addImage', checkAuth, upload.single('picture'), (req, res, next) => {
     console.log(req.files);
 
     const picture = new Gallery({
