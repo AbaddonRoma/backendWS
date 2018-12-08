@@ -66,29 +66,45 @@ router.get('/getImages', (req, res, next) => {
         })
 });
 // checkAuth  after /route
-router.post('/addImage', checkAuth, upload.single('picture'), (req, res, next) => {
+router.post('/addImage', upload.array('picture', 10), (req, res, next) => {
     console.log(req.files);
+    // res.status(200).json({
+    //     files: req
+    // });
+    let response = null;
+    let error = null;
+    req.files.forEach(file => {
+        const picture = new Gallery({
+            _id: new mongoose.Types.ObjectId(),
+            // pictureName: req.body.pictureName,
+            album: req.body.album,
+            picture: file.path
+        });
 
-    const picture = new Gallery({
-        _id: new mongoose.Types.ObjectId(),
-        pictureName: req.body.pictureName,
-        album: req.body.album,
-        picture: req.file.path
+        picture.save()
+            .then(pic => {
+                // res.status(200).json({
+                //     message: 'Picture has been successfully posted',
+                //     picture: pic
+                // })
+            })
+            .catch(err => {
+                error = err;
+                // res.status(500).json({
+                //     error: err
+                // })
+            })
     });
+    if(error) {
+        res.status(500).json({
+            error: err
+        })
+    } else {
+        res.status(200).json({
+            message: 'Picture has been successfully posted'
+        })
+    }
 
-    picture.save()
-        .then(pic => {
-            res.status(200).json({
-                message: 'Picture has been successfully posted',
-                picture: pic
-            })
-        })
-        .catch(err => {
-            error = err;
-            res.status(500).json({
-                error: err
-            })
-        })
 
 });
 
