@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+#WebStorm
+.idea/*
+
+# misc
+/.sass-cache
+/connect.lockg
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+/uploads/*
+!uploads/.gitkeep
